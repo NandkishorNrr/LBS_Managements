@@ -11,10 +11,10 @@ public class Main {
 	Connection con;
 
 	String name = "CustomerName";
-	int billNo = 111;
-	LocalDate issueDate = LocalDate.now();
-	LocalDate lc = LocalDate.now();
-//	Date returnDate = lc.;
+	int billNo = 100;
+	Date issueDate = Date.valueOf(LocalDate.now());
+	Date returnDate = Date.valueOf(LocalDate.now());
+
 	String mobNo = "1234567890";
 	String address = "xyz abc 12345";
 	
@@ -171,12 +171,15 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println("ISSUE");
-		
+
 		System.out.println("Enter customer name : ");
 		name = in.nextLine();
 		
 		System.out.println("Enter address: ");
 		address = in.nextLine();
+		
+		System.out.println("Enter bill number: ");
+		billNo = in.nextInt();
 
 		display();
 		
@@ -192,27 +195,19 @@ public class Main {
 		 */
 
 		try {
-			PreparedStatement ps = con.prepareStatement("INSERT INTO billing (issueDate, cstmr_name, billNo, mobNo, address, plate3_2, plate3_1_75, plate3_1_5, plate3_1_25, plate3_1, tinPlate, balli_14, balli_12, balli_10, balli_9_8, chabiChhoti, chabiBadi, numDays, advAmount, totalAmount) "
-					+ "value('" + issueDate.toString() + "',  '" + name + "', '" + billNo + "', '"  + mobNo + "', '" + address + "', '" + plate3_2 + "', '" + plate3_1_75 + "', '" +  plate3_1_5 + "', '" + plate3_1_25 + "', '" + plate3_1  + "', '" + tinPlate + "', '" + balli_14  + "', ' " + balli_12 + "', '" + balli_10 + "' , '" + balli_9_8 + "', '" + chabiChhoti + "', '" + chabiBadi + "', '" + numDays + "', '" + advAmount + "', '" + totalAmount + "'"  
+			PreparedStatement ps = con.prepareStatement("INSERT INTO billing (issueDate, cstmr_name, billNo, mobNo, address, plate3_2, plate3_1_75, plate3_1_5, plate3_1_25, plate3_1, tinPlate, balli_14, balli_12, balli_10, balli_9_8, chabiChhoti, chabiBadi, patiya, numDays, advAmount, totalAmount) "
+					+ "value('" + issueDate.toString() + "',  '" + name + "', '" + billNo + "', '"  + mobNo + "', '" + address + "', '" + plate3_2 + "', '" + plate3_1_75 + "', '" +  plate3_1_5 + "', '" + plate3_1_25 + "', '" + plate3_1  + "', '" + tinPlate + "', '" + balli_14  + "', ' " + balli_12 + "', '" + balli_10 + "' , '" + balli_9_8 + "', '" + chabiChhoti + "', '" + chabiBadi + "', '" + patiya + "', '" + numDays + "', '" + advAmount + "', '" + totalAmount + "' "  
 					+ ");");
 //			ps.setInt(1, amount);
 			ps.execute();
-		
 		}
+		
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
 		updateMaterial("issued");
-		
-//		try {
-//			PreparedStatement ps = con.prepareStatement("UPDATE accounts Set balance  = balance - ? where account_id = 123");
-//			ps.setInt(1, amount);
-//			ps.executeUpdate();
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//		}		
+			
 		System.out.println("Issued OK");
 	}
 	
@@ -220,20 +215,7 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println("RETURN");
-//		System.out.println("Enter customer name : ");
-//		name = in.nextLine();
-//		
-//		System.out.println("Enter address: ");
-//		address = in.nextLine();
-//
-		System.out.println("Enter bill number: ");
-		billNo = in.nextInt();
 
-
-//
-//		System.out.println("Enter mobile number: ");
-//		mobNo = in.next();
-//		display();
 		
 		System.out.println("You have to pay(Total - Adv.)");
 //		advAmount = in.nextInt();
@@ -258,7 +240,8 @@ public class Main {
 						+ "balli_9_8 = balli_9_8- ?,"
 						+ "chabiChhoti = chabiChhoti- ?,"
 						+ "chabiBadi = chabiBadi- ?,"
-						+ "patiya = patiya- ? "
+						+ "patiya = patiya- ?,"
+						+ "returnDate = ?"
 						+ "WHERE billNo = " + bn + "");
 				ps.setInt(1, plate3_2);
 				ps.setInt(2, plate3_1_75);
@@ -273,7 +256,7 @@ public class Main {
 				ps.setInt(11, chabiChhoti);
 				ps.setInt(12, chabiBadi);
 				ps.setInt(13, patiya);
-//				ps.setDate(14, returnDate);
+				ps.setDate(14, returnDate);
 				ps.executeUpdate();
 			}
 			catch(Exception e) {
@@ -282,15 +265,7 @@ public class Main {
 	
 		
 		updateMaterial("returned");
-		
-//		try {
-//			PreparedStatement ps = con.prepareStatement("UPDATE accounts Set balance  = balance - ? where account_id = 123");
-//			ps.setInt(1, amount);
-//			ps.executeUpdate();
-//		}
-//		catch(Exception e) {
-//			e.printStackTrace();
-//		}		
+				
 		System.out.println("Returned OK");
 	}
 	
@@ -345,21 +320,19 @@ public class Main {
 		Main main = new Main();
 		
 		  int n; 
-//		  System.out.println("Issuing..."); 
-//		  n = in.nextInt(); //
-//		  main.issued();
-//		  
-		  System.out.println("Returning..."); 
+		  System.out.println("Issuing..."); 
 		  n = in.nextInt(); 
-		  main.returned(111);
-//		  
-//		 System.out.println("NewAdding..."); n = in.nextInt();
+		  main.issued();
+
+		  
+//		  System.out.println("Returning..."); 
+//		  n = in.nextInt(); 
+//		  main.returned(1);
+		  
+		  
+//		 System.out.println("NewAdding...");
+//		  n = in.nextInt();
 //		  main.updateMaterial("added");
-		 
-		
-//		System.out.println("NewAdding...");
-//		LocalDate ld =  LocalDate.now();
-//		System.out.println(ld);
 		
 		
 	}
