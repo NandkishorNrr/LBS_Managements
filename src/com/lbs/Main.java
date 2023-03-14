@@ -219,11 +219,21 @@ public class Main {
 		
 		System.out.println("RETURN");
 
-		display();
+//		display();
 			
 			try {
 				PreparedStatement ps;
-				ps = con.prepareStatement(" ");
+				ps = con.prepareStatement("UPDATE billing set returnDate = ?"
+						+ "WHERE billNo = " + bn + "");
+				ps.setDate(1, returnDate);
+				ps.executeUpdate();
+				
+				ps = con.prepareStatement("select datediff(returnDate, issueDate) as numDays from billing where billNo = 1;");
+				ResultSet rs = ps.executeQuery();
+//				rs.next();  // i want current record....
+				numDays = rs.getInt("numDays");
+				
+//				numDays = 15;
 				ps = con.prepareStatement("UPDATE billing set "
 						+ "plate3_2 = plate3_2 - ?, "
 						+ "plate3_1_75 = plate3_1_75 - ?,"
@@ -237,8 +247,8 @@ public class Main {
 						+ "balli_9_8 = balli_9_8- ?,"
 						+ "chabiChhoti = chabiChhoti- ?,"
 						+ "chabiBadi = chabiBadi- ?,"
-						+ "patiya = patiya- ?,"
-						+ "returnDate = ?"
+						+ "patiya = patiya- ?, "
+						+ "numDays = ? "
 						+ "WHERE billNo = " + bn + "");
 				ps.setInt(1, plate3_2);
 				ps.setInt(2, plate3_1_75);
@@ -253,7 +263,7 @@ public class Main {
 				ps.setInt(11, chabiChhoti);
 				ps.setInt(12, chabiBadi);
 				ps.setInt(13, patiya);
-				ps.setDate(14, returnDate);
+				ps.setInt(14, numDays);
 				ps.executeUpdate();		
 				
 			}
@@ -332,7 +342,7 @@ public class Main {
 		  
 		  System.out.println("Returning..."); 
 		  n = in.nextInt(); 
-		  main.returned(1);
+		  main.returned(2);
 		  
 		  
 //		 System.out.println("NewAdding...");
