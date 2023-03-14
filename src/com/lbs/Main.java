@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Scanner;
+
+import com.mysql.cj.xdevapi.Result;
 
 public class Main {
 	Connection con;
@@ -172,19 +175,19 @@ public class Main {
 		
 		System.out.println("ISSUE");
 
-		System.out.println("Enter customer name : ");
-		name = in.nextLine();
+//		System.out.println("Enter customer name : ");
+//		name = in.nextLine();
+//		
+//		System.out.println("Enter address: ");
+//		address = in.nextLine();
 		
-		System.out.println("Enter address: ");
-		address = in.nextLine();
-		
-		System.out.println("Enter bill number: ");
-		billNo = in.nextInt();
+//		System.out.println("Enter bill number: ");
+//		billNo = in.nextInt();
 
-		display();
-		
-		System.out.println("Advance ");
-		advAmount = in.nextInt();
+//		display();
+//		
+//		System.out.println("Advance ");
+//		advAmount = in.nextInt();
 
 
 
@@ -195,8 +198,8 @@ public class Main {
 		 */
 
 		try {
-			PreparedStatement ps = con.prepareStatement("INSERT INTO billing (issueDate, cstmr_name, billNo, mobNo, address, plate3_2, plate3_1_75, plate3_1_5, plate3_1_25, plate3_1, tinPlate, balli_14, balli_12, balli_10, balli_9_8, chabiChhoti, chabiBadi, patiya, numDays, advAmount, totalAmount) "
-					+ "value('" + issueDate.toString() + "',  '" + name + "', '" + billNo + "', '"  + mobNo + "', '" + address + "', '" + plate3_2 + "', '" + plate3_1_75 + "', '" +  plate3_1_5 + "', '" + plate3_1_25 + "', '" + plate3_1  + "', '" + tinPlate + "', '" + balli_14  + "', ' " + balli_12 + "', '" + balli_10 + "' , '" + balli_9_8 + "', '" + chabiChhoti + "', '" + chabiBadi + "', '" + patiya + "', '" + numDays + "', '" + advAmount + "', '" + totalAmount + "' "  
+			PreparedStatement ps = con.prepareStatement("INSERT INTO billing (issueDate, cstmr_name, mobNo, address, plate3_2, plate3_1_75, plate3_1_5, plate3_1_25, plate3_1, tinPlate, balli_14, balli_12, balli_10, balli_9_8, chabiChhoti, chabiBadi, patiya, numDays, advAmount, totalAmount) "
+					+ "value('" + issueDate.toString() + "',  '" + name + "', '"  + mobNo + "', '" + address + "', '" + plate3_2 + "', '" + plate3_1_75 + "', '" +  plate3_1_5 + "', '" + plate3_1_25 + "', '" + plate3_1  + "', '" + tinPlate + "', '" + balli_14  + "', ' " + balli_12 + "', '" + balli_10 + "' , '" + balli_9_8 + "', '" + chabiChhoti + "', '" + chabiBadi + "', '" + patiya + "', '" + numDays + "', '" + advAmount + "', '" + totalAmount + "' "  
 					+ ");");
 //			ps.setInt(1, amount);
 			ps.execute();
@@ -216,18 +219,12 @@ public class Main {
 		
 		System.out.println("RETURN");
 
-		
-		System.out.println("You have to pay(Total - Adv.)");
-//		advAmount = in.nextInt();
-
-
-
-		units = (plate3_2 + plate3_1_75 + plate3_1_5 + plate3_1_25 + plate3_1 + tinPlate + balli_14 + balli_12 + balli_10 + balli_9_8 + chabiBadi + chabiChhoti);
-		totalAmount = numDays*units +  patiya*numDays*5;
-
-	
+		display();
+			
 			try {
-				PreparedStatement ps = con.prepareStatement("UPDATE billing set "
+				PreparedStatement ps;
+				ps = con.prepareStatement(" ");
+				ps = con.prepareStatement("UPDATE billing set "
 						+ "plate3_2 = plate3_2 - ?, "
 						+ "plate3_1_75 = plate3_1_75 - ?,"
 						+ "plate3_1_5 = plate3_1_5 - ?,"
@@ -257,7 +254,8 @@ public class Main {
 				ps.setInt(12, chabiBadi);
 				ps.setInt(13, patiya);
 				ps.setDate(14, returnDate);
-				ps.executeUpdate();
+				ps.executeUpdate();		
+				
 			}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -265,7 +263,14 @@ public class Main {
 	
 		
 		updateMaterial("returned");
+	
+
+		units = (plate3_2 + plate3_1_75 + plate3_1_5 + plate3_1_25 + plate3_1 + tinPlate + balli_14 + balli_12 + balli_10 + balli_9_8 + chabiBadi + chabiChhoti);
+		totalAmount = numDays*units +  patiya*numDays*5;
 				
+		System.out.println("You have to pay(Total - Adv.)");
+//		advAmount = in.nextInt();
+		
 		System.out.println("Returned OK");
 	}
 	
@@ -320,14 +325,14 @@ public class Main {
 		Main main = new Main();
 		
 		  int n; 
-		  System.out.println("Issuing..."); 
-		  n = in.nextInt(); 
-		  main.issued();
+//		  System.out.println("Issuing..."); 
+//		  n = in.nextInt(); 
+//		  main.issued();
 
 		  
-//		  System.out.println("Returning..."); 
-//		  n = in.nextInt(); 
-//		  main.returned(1);
+		  System.out.println("Returning..."); 
+		  n = in.nextInt(); 
+		  main.returned(1);
 		  
 		  
 //		 System.out.println("NewAdding...");
