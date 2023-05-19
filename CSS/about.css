@@ -1,0 +1,11 @@
+/* Existing CSS styles */
+
+section {
+    margin-bottom: 30px;
+}
+
+/* Additional styles for the about page */
+
+section p {
+    line-height: 1.5;
+}
